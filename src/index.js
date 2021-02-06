@@ -1,4 +1,6 @@
 const { ApolloServer } = require('apollo-server');
+const { PrismaClient } = require('@prisma/client');
+
 
 let links = [{
   id: 'link-0',
@@ -34,7 +36,13 @@ const path = require('path');
 
 let readDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
 
-const server = new ApolloServer({ typeDefs: readDefs, resolvers, });
+const prisma = new PrismaClient();
+
+const server = new ApolloServer({
+  typeDefs: readDefs,
+  resolvers,
+  context: { prisma, }
+});
 
 server
   .listen({ port: 4001 })
