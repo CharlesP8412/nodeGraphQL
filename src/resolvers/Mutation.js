@@ -15,7 +15,7 @@ const signup = async (parent, args, context, info) => {
   };
 };
 
-const login = (parent, args, context, info) => {
+const login = async (parent, args, context, info) => {
   const user = await context.prisma.user.findUnique({ where: { email: args.email } })
   if (!user) {
     throw new Error('No such user found')
