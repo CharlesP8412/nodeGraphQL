@@ -22,6 +22,9 @@ const resolvers = {
       }
       links.push(link);
       return link;
+    },
+    update: (parent, args) => {
+      console.log("UPDATE");
     }
   },
 };
