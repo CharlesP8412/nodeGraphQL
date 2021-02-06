@@ -29,10 +29,22 @@ const login = (parent, args, context, info) => {
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
   return { token, user, }
-}
+};
+
+const post = async (parent, args, context, info) => {
+  const { userId } = context;
+
+  return await context.prisma.linkcreate({
+    data: {
+      url: args.url,
+      description: args.description,
+      postedBy: { connect: { id: userId } },
+    }
+  })
+};
 
 module.exports = {
   signup,
   login,
   post,
-}
+};
