@@ -2,6 +2,7 @@ const { ApolloServer } = require('apollo-server');
 const { PrismaClient } = require('@prisma/client');
 
 
+
 let links = [{
   id: 'link-0',
   url: 'www.howtographql.com',
@@ -32,15 +33,21 @@ const resolvers = {
 
 const fs = require('fs');
 const path = require('path');
-
 let readDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
-
+const { getUserId } = require('./utils');
 const prisma = new PrismaClient();
 
 const server = new ApolloServer({
   typeDefs: readDefs,
   resolvers,
-  context: { prisma, }
+  context: ({ req }) => {
+    return {
+      ...req,
+      prisma,
+      userId:
+        req && req.headers.authorization ? getUserId(req) : null
+    };
+  }
 });
 
 server
