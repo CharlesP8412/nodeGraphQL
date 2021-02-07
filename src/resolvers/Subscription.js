@@ -10,5 +10,5 @@ const newLink = {
 };
 
 module.exports = {
-  newLink
-},
+  newLink,
+}

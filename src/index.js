@@ -8,7 +8,7 @@ const Subscription = require('./resolvers/Subscription');
 const fs = require('fs');
 const path = require('path');
 const { getUserId } = require('./utils');
-const { PubSub } = require('spollo-server');
+const { PubSub } = require('apollo-server');
 
 const prisma = new PrismaClient();
 const pubsub = new PubSub();
