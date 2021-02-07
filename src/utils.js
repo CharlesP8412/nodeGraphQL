@@ -6,7 +6,6 @@ const getTokenPayload = (token) => {
 };
 
 const getUserId = (req, authToken) => {
-  console.log(authToken);
   if (req) {
     const authHeader = req.headers.authorization;
     if (authHeader) {

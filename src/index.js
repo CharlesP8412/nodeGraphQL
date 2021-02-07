@@ -4,19 +4,25 @@ const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 const User = require('./resolvers/User');
 const Link = require('./resolvers/Link');
+const Subscription = require('./resolvers/Subscription');
+const fs = require('fs');
+const path = require('path');
+const { getUserId } = require('./utils');
+const { PubSub } = require('spollo-server');
 
+const prisma = new PrismaClient();
+const pubsub = new PubSub();
+
+let readDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
 const resolvers = {
   Query,
   Mutation,
+  Subscription,
   User,
   Link
 };
 
-const fs = require('fs');
-const path = require('path');
-let readDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
-const { getUserId } = require('./utils');
-const prisma = new PrismaClient();
+
 
 const server = new ApolloServer({
   typeDefs: readDefs,
@@ -25,6 +31,7 @@ const server = new ApolloServer({
     return {
       ...req,
       prisma,
+      pubsub,
       userId:
         req && req.headers.authorization ? getUserId(req) : null
     };
