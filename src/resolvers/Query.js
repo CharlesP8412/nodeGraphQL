@@ -9,8 +9,10 @@ const feed = async (parent, args, context, info) => {
     where,
     skip: args.skip,
     take: args.take,
+    orderBy: args.OrderBy,
   });
-  return links;
+  const count = await context.prisma.link.count({ where });
+  return { links, count };
 };
 
 module.exports = { feed, };
