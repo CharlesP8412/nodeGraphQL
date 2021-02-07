@@ -23,4 +23,4 @@ const newVote = {
 module.exports = {
   newLink,
   newVote,
-}
+};
